@@ -10,16 +10,20 @@ namespace GithubEmojis.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private IGithubEmojiService emojiService;
+        private readonly ILogger<IndexModel> logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, IGithubEmojiService emojiService)
         {
-            _logger = logger;
+            this.emojiService = emojiService;
+            this.logger = logger;
         }
 
-        public void OnGet()
-        {
+        public IList<Emoji> Emojis { get; set; }
 
+        public async void OnGet()
+        {
+            Emojis = await emojiService.GetEmojis();
         }
     }
 }
